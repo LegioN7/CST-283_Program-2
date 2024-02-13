@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 // Aaron Pelto
 // Winter 2024
 
+// *------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
 // This application is for CST-283 - Program 2
 // Whether it is a military operation or simple geocaching, many activities involve searching for a target at a precise geographic position on Earth from a given starting position.
 // Write a Java program that utilizes the basic required formulas to search for a target.
@@ -57,7 +58,14 @@ import javafx.scene.control.Alert;
 // Bearing 68 degrees (ENE)
 // Currently: 13 JUL 2021 14:52
 // Time to target: 0.22 hours
+// *------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
 
+/**
+ * The TargetingApp class is a JavaFX application that allows the user to enter information about a geographical target and calculate the distance, bearing, and time to reach the target.
+ * The user can enter the name, latitude, longitude, and moving speed of the target.
+ * The application validates the input data and displays an error message if the data is invalid.
+ * If the data is valid, the application calculates the distance from the current location to the target, the bearing to the target, and the time to reach the target, and displays this information in an alert.
+ */
 public class TargetingApp extends Application {
 
     private TextField nameField;
@@ -67,9 +75,12 @@ public class TargetingApp extends Application {
     private Target target;
 
 
-    // Start the application
-    // Set the title of the application
-    // Create the scene and set the stage
+    /**
+     * Starts the application.
+     * Sets the title of the application and creates the scene.
+     *
+     * @param primaryStage the primary stage for this application
+     */
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Targeting App");
@@ -78,10 +89,13 @@ public class TargetingApp extends Application {
         primaryStage.show();
     }
 
-    // Create the scene for the application
-    // Create the grid pane and add the labels, text fields, and buttons
-    // Set the action for the buttons
-    // Return the scene
+    /**
+     * Creates the scene for the application.
+     * Creates the grid pane and adds the labels, text fields, and buttons.
+     * Sets the action for the buttons.
+     *
+     * @return the scene for the application
+     */
     private Scene createScene() {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(30, 30, 30, 30));
@@ -145,8 +159,12 @@ public class TargetingApp extends Application {
         return new Scene(grid, 400, 300);
     }
 
+    /**
+     * Exception class for invalid input.
+     */
     // I was looking up on this and I found that the exception handling is a good way to validate the input
-    // I found this on https://www.geeksforgeeks.org/best-practices-to-handle-exceptions-in-java/
+    // Outside References
+    // https://www.geeksforgeeks.org/best-practices-to-handle-exceptions-in-java/
     // https://docs.oracle.com/cd/E23095_01/Platform.93/apidoc/atg/integrations/InvalidInputException.html
     // https://notearena.com/lesson/custom-exceptions-in-java/
     public static class InvalidInputException extends Exception {
@@ -155,25 +173,35 @@ public class TargetingApp extends Application {
         }
     }
 
-    // Calculate the information for the target
-    // Get the information from the text fields and calculate the target
+    /**
+     * Calculates the information for the target.
+     * Gets the information from the text fields and calculates the target.
+     */
     private void calculateTarget() {
         try {
             String name = nameField.getText().trim();
-            if (name.trim().isEmpty()) {
+            if (name.isEmpty()) {
                 throw new InvalidInputException("Target name cannot be blank.");
             }
-            double latitude = Double.parseDouble(latitudeField.getText());
-            double longitude = Double.parseDouble(longitudeField.getText());
-            double speed = Double.parseDouble(speedField.getText());
 
+            // Trim the input and parse the text fields
+            // If the latitude or longitude is out of range, throw an exception
+            // If the speed is less than zero, throw an exception
+            double latitude = Double.parseDouble(latitudeField.getText().trim());
+            double longitude = Double.parseDouble(longitudeField.getText().trim());
+            double speed = Double.parseDouble(speedField.getText().trim());
+
+            // Create a new target object and set the target data
             target = new Target();
             target.setTargetName(name);
             target.setTargetLatitude(latitude);
             target.setTargetLongitude(longitude);
             target.setMovingSpeed(speed);
 
+            // Show the target data
             target.showTargetData();
+
+            // Throw an exception if the data is invalid
         } catch (IllegalArgumentException | InvalidInputException e) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle("Error");
@@ -183,7 +211,9 @@ public class TargetingApp extends Application {
         }
     }
 
-    // Clear the fields
+    /**
+     * Clears the fields.
+     */
     private void clearFields() {
         nameField.clear();
         latitudeField.clear();
@@ -191,6 +221,11 @@ public class TargetingApp extends Application {
         speedField.clear();
     }
 
+    /**
+     * The main method for the application.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

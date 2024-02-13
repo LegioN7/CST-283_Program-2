@@ -5,8 +5,12 @@ import javafx.scene.control.Alert;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The Target class represents a geographical target with a name, latitude, longitude, and moving speed.
+ * It provides methods to calculate the distance from the target, the bearing to the target, and the time to reach the target.
+ */
 public class Target {
-
+    final double RADIUS_EARTH = 6371.01;
     private String targetName;
     private double targetLatitude;
     private double targetLongitude;
@@ -16,12 +20,22 @@ public class Target {
     private double myLongitude = -83.986;
     private double movingSpeed;
 
-    // Constructor
-    // Blank no-arg constructor
+    /**
+     * No-argument constructor for the Target class.
+     */
     public Target() {
     }
 
-    // Constructor with parameters
+    /**
+     * Parameterized constructor for the Target class.
+     *
+     * @param targetName the name of the target
+     * @param targetLatitude the latitude of the target
+     * @param targetLongitude the longitude of the target
+     * @param myLatitude the latitude of the current location
+     * @param myLongitude the longitude of the current location
+     * @param movingSpeed the speed at which the target is moving
+     */
     public Target(String targetName,double targetLatitude, double targetLongitude, double myLatitude, double myLongitude, double movingSpeed) {
         this.targetName = targetName;
         this.targetLatitude = targetLatitude;
@@ -32,79 +46,150 @@ public class Target {
     }
 
     // Getters and setters
+    /**
+     * Gets the name of the target.
+     *
+     * @return the name of the target
+     */
     public String getTargetName() {
         return targetName;
     }
 
+    /**
+     * Sets the name of the target.
+     *
+     * @param targetName the name of the target
+     */
     public void setTargetName(String targetName) {
         this.targetName = targetName;
     }
 
+    /**
+     * Gets the latitude of the target.
+     *
+     * @return the latitude of the target
+     */
     public double getTargetLatitude() {
         return targetLatitude;
     }
 
+    /**
+     * Sets the latitude of the target.
+     *
+     * @param targetLatitude the latitude of the target
+     * @throws IllegalArgumentException if the latitude is not between -90.0 and 90.0 degrees
+     */
     public void setTargetLatitude(double targetLatitude) throws IllegalArgumentException {
         validateLatitude(targetLatitude);
         this.targetLatitude = targetLatitude;
     }
 
-    // Validate Latitude
-    // Latitude must be between -90.0 and 90.0 degrees
+    /**
+     * Validates the latitude of the target.
+     *
+     * @param latitude the latitude of the target
+     * @throws IllegalArgumentException if the latitude is not between -90.0 and 90.0 degrees
+     */
     private void validateLatitude(double latitude) throws IllegalArgumentException {
         if (latitude < -90.0 || latitude > 90.0) {
             throw new IllegalArgumentException("Latitude must be between -90.0 and 90.0 degrees.");
         }
     }
 
+    /**
+     * Gets the longitude of the target.
+     *
+     * @return the longitude of the target
+     */
     public double getTargetLongitude() {
         return targetLongitude;
     }
 
+    /**
+     * Sets the longitude of the target.
+     *
+     * @param targetLongitude the longitude of the target
+     * @throws IllegalArgumentException if the longitude is not between -180.0 and 180.0 degrees
+     */
     public void setTargetLongitude(double targetLongitude) throws IllegalArgumentException {
         validateLongitude(targetLongitude);
         this.targetLongitude = targetLongitude;
     }
 
-    // Validate Longitude
-    // Longitude must be between -180.0 and 180.0 degrees
+    /**
+     * Validates the longitude of the target.
+     *
+     * @param longitude the longitude of the target
+     * @throws IllegalArgumentException if the longitude is not between -180.0 and 180.0 degrees
+     */
     private void validateLongitude(double longitude) throws IllegalArgumentException {
         if (longitude < -180.0 || longitude > 180.0) {
             throw new IllegalArgumentException("Longitude must be between -180.0 and 180.0 degrees.");
         }
     }
 
-    // Is not used because I hard coded my latitude and longitude
+    /**
+     * Gets the latitude of the current location.
+     *
+     * @return the latitude of the current location
+     */
     public double getMyLatitude() {
         return myLatitude;
     }
 
-    // Is not used because I hard coded my latitude and longitude
+    /**
+     * Sets the latitude of the current location.
+     *
+     * @param myLatitude the latitude of the current location
+     */
     public void setMyLatitude(double myLatitude) {
         this.myLatitude = myLatitude;
     }
 
-    // Is not used because I hard coded my latitude and longitude
+    /**
+     * Gets the longitude of the current location.
+     *
+     * @return the longitude of the current location
+     */
     public double getMyLongitude() {
         return myLongitude;
     }
 
-    // Is not used because I hard coded my latitude and longitude
+    /**
+     * Sets the longitude of the current location.
+     *
+     * @param myLongitude the longitude of the current location
+     */
     public void setMyLongitude(double myLongitude) {
         this.myLongitude = myLongitude;
     }
 
+    /**
+     * Gets the moving speed of the target.
+     *
+     * @return the moving speed of the target
+     */
     public double getMovingSpeed() {
         return movingSpeed;
     }
 
+    /**
+     * Sets the moving speed of the target.
+     *
+     * @param movingSpeed the moving speed of the target
+     * @throws IllegalArgumentException if the moving speed is negative
+     */
     public void setMovingSpeed(double movingSpeed) throws IllegalArgumentException {
         validateMovingSpeed(movingSpeed);
         this.movingSpeed = movingSpeed;
     }
 
-    // Validate Moving Speed
-    // Moving Speed cannot be negative
+    /**
+     * Validates the moving speed of the target.
+     *
+     * @param speed the moving speed of the target
+     * @throws IllegalArgumentException if the moving speed is negative
+     */
     private void validateMovingSpeed(double speed) throws IllegalArgumentException {
         if (speed < 0) {
             throw new IllegalArgumentException("Speed cannot be negative.");
@@ -112,13 +197,13 @@ public class Target {
     }
 
 
-    // Provided by Mr.Klingler
-    // Distance from target
-    // Radius of the Earth is 6371.01 km
-    // Convert coordinates to radians
-    // Use the Haversine formula to calculate the distance
+    /**
+     * Calculates the distance from the current location to the target.
+     *
+     * @return the distance from the current location to the target
+     */
     public double distanceFrom() {
-        final double RADIUS_EARTH = 6371.01;
+
 
         // Convert coordinates to radians
         double lat1 = Math.toRadians(targetLatitude);
@@ -130,11 +215,11 @@ public class Target {
                 + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
     }
 
-    // Provided by Mr.Klingler
-    // Bearing to target
-    // Convert coordinates to radians
-    // Use the formula to calculate the bearing
-    // Return the bearing in degrees
+    /**
+     * Calculates the bearing from the current location to the target in degrees.
+     *
+     * @return the bearing from the current location to the target in degrees
+     */
     public double bearingToDegrees() {
         double latitude1 = Math.toRadians(myLatitude);
         double longitude1 = Math.toRadians(myLongitude);
@@ -151,9 +236,11 @@ public class Target {
         return (Math.toDegrees(bearing) + 360) % 360;
     }
 
-    // Convert bearing to ordinal
-    // Return the ordinal direction
-
+    /**
+     * Converts the bearing from the current location to the target to an ordinal direction.
+     *
+     * @return the bearing from the current location to the target as an ordinal direction
+     */
     public String bearingToOrdinal() {
         double bearing = bearingToDegrees();
         String[] compassPoints = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
@@ -167,9 +254,12 @@ public class Target {
         return compassPoints[index];
     }
 
-    // Time to target
-    // Calculate the distance from the target
-    // Validate Speed is not zero - I've been reading its good to validate the input with exceptions and I found this on https://www.geeksforgeeks.org/best-practices-to-handle-exceptions-in-java/
+    /**
+     * Calculates the time to reach the target from the current location.
+     *
+     * @return the time to reach the target from the current location
+     * @throws IllegalArgumentException if the moving speed is zero
+     */
     public double timeToTarget() {
         double distance = distanceFrom();
         double speed = getMovingSpeed();
@@ -181,8 +271,11 @@ public class Target {
         return distance / speed;
     }
 
-    // I'm only implementing this because it is a requirement of the program assignment
-    // I'd rather validate and allow modular use of the code
+    /**
+     * Validates the data of the target.
+     *
+     * @return true if the data of the target is valid, false otherwise
+     */
     public boolean dataValid() {
         if (getTargetName() == null || getTargetName().trim().isEmpty()) {
             return false;
@@ -199,18 +292,23 @@ public class Target {
         return true;
     }
 
-    // Get the current date and time
-    // Return the date and time as a string
+    /**
+     * Gets the current date and time.
+     *
+     * @return the current date and time as a string
+     */
     public String getDateTime() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return now.format(formatter);
     }
 
-    // Alert for the navigation report
-    // Show the target data in an alert
-    // If the data is invalid, show an error alert
-    // Data is sent to the alert as a toString
+    /**
+     * Sets the name of the target.
+     *
+     * @param targetName the name of the target
+     * @throws EmptyNameException if the target name is null or empty
+     */
     public void showTargetData() {
         if (!dataValid()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
