@@ -304,10 +304,9 @@ public class Target {
     }
 
     /**
-     * Sets the name of the target.
-     *
-     * @param targetName the name of the target
-     * @throws EmptyNameException if the target name is null or empty
+     * Displays the data of the target in an alert.
+     * If the data is invalid, an error alert is shown with a message to enter valid data.
+     * If the data is valid, an information alert is shown with the target's name, distance from the current location, bearing to the target in degrees and as an ordinal direction, current date and time, and time to reach the target.
      */
     public void showTargetData() {
         if (!dataValid()) {
@@ -328,6 +327,12 @@ public class Target {
         alert.showAndWait();
     }
 
+    /**
+     * Returns a string representation of the target.
+     * The string includes the target's name, distance from the current location, bearing to the target in degrees and as an ordinal direction, current date and time, and time to reach the target.
+     *
+     * @return a string representation of the target
+     */
     @Override
     public String toString() {
         StringBuilder targetAlert = new StringBuilder();
