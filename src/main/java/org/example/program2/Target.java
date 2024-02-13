@@ -330,12 +330,12 @@ public class Target {
 
     @Override
     public String toString() {
-        StringBuilder TargetAlert = new StringBuilder();
-        TargetAlert.append("Target: ").append(targetName).append("\n");
-        TargetAlert.append("Distance: ").append(distanceFrom()).append(" km").append("\n");
-        TargetAlert.append("Bearing: ").append(bearingToDegrees()).append(" degrees (").append(bearingToOrdinal()).append(")").append("\n");
-        TargetAlert.append("Currently: ").append(getDateTime()).append("\n");
-        TargetAlert.append("Time to target: ").append(timeToTarget()).append(" hours");
-        return TargetAlert.toString();
+        StringBuilder targetAlert = new StringBuilder();
+        targetAlert.append("Target: ").append(targetName).append("\n");
+        targetAlert.append("Distance: ").append(String.format("%.2f", distanceFrom())).append(" km").append("\n");
+        targetAlert.append("Bearing: ").append(String.format("%.0f", bearingToDegrees())).append(" degrees (").append(bearingToOrdinal()).append(")").append("\n");
+        targetAlert.append("Currently: ").append(getDateTime()).append("\n");
+        targetAlert.append("Time to target: ").append(String.format("%.2f", timeToTarget())).append(" hours");
+        return targetAlert.toString();
     }
 }
