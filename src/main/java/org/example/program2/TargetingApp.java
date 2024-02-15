@@ -60,6 +60,13 @@ import javafx.scene.control.Alert;
 // Time to target: 0.22 hours
 // *------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*
 
+// If I could create a v2.0
+// I'd pull all the calculations out of my Target.Java class and put them in a separate class called TargetCalculations.java or in TargetingApp.java
+// I'd also create a separate class for the GUI and put all the GUI code in there
+// This is a note to myself for future reference
+
+
+
 /**
  * The TargetingApp class is a JavaFX application that allows the user to enter information about a geographical target and calculate the distance, bearing, and time to reach the target.
  * The user can enter the name, latitude, longitude, and moving speed of the target.
@@ -84,7 +91,7 @@ public class TargetingApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Targeting App");
-        Scene scene = createScene();
+        Scene scene = createTargetGUI();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -96,7 +103,7 @@ public class TargetingApp extends Application {
      *
      * @return the scene for the application
      */
-    private Scene createScene() {
+    private Scene createTargetGUI() {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(30, 30, 30, 30));
         grid.setVgap(15);
